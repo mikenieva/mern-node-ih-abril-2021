@@ -6,8 +6,12 @@ const conectarDB    = require('./config/db')
 
 const app           = express()
 
+require('dotenv').config({
+    path: '.env'
+})
+
 const userRoutes        = require('./routes/usuarios')
-// const authRoutes        = require('./routes/auth')
+const authRoutes        = require('./routes/auth')
 // const projectsRoutes    = require('./routes/proyectos')
 
 // 2. MIDDLEWARES
@@ -26,7 +30,7 @@ const userRoutes        = require('./routes/usuarios')
     app.use('/api/usuarios', userRoutes)    
 
     // B. Autenticación
-    // app.use('/api/auth', authRoutes)
+    app.use('/api/auth', authRoutes)
 
     // C. Proyectos
     // app.use('/api/proyectos', projectsRoutes)

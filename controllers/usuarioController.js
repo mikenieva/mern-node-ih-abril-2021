@@ -1,9 +1,7 @@
 const { validationResult } = require("express-validator")
 const bcryptjs             = require('bcryptjs')
-
+const jwt                  = require('jsonwebtoken')
 const Usuario = require('../models/Usuario')
-
-
 
 exports.crearUsuario = async (req, res) => {
         // REVISIÓN DE EXPRESS-VALIDATOR
@@ -43,12 +41,36 @@ exports.crearUsuario = async (req, res) => {
             // GUARDARMOS EL USUARIO
             await usuario.save()
 
-            // DEVOLVER RESULTADO 
-            res.json({
-                usuario
-            })
-        } catch(e){
 
+
+            // CREACIÓN DE PAYLOAD PARA EL JWT
+            const payload = {
+                usuario: {
+                    id: usuario.id
+                }
+            }
+
+            // GENERAR EL JWT Y APLICARLE UNA FIRMA
+            jwt.sign(
+                payload, // LOS DATOS QUE SE ENVÍAN AL FRONT (USUARIO.ID) 
+                process.env.SECRETA, // PALABRA SECRETA DEL BACKEND
+                {
+                    expiresIn: 360000 // EXPIRACIÓN 100 HORAS
+                },
+                (error, token) => { // CALLBACK UNA VEZ QUE EJECUTÓ TODO LO DE ARRIBA (sign con el payload, la palabra secreta y la expiración)
+                    if(error) throw error
+
+                    // DEVOLVER RESULTADO AL FRONTEND
+                    res.json({
+                        token: token
+                    })        
+                }
+            )
+        } catch(e){
+            console.log(e)
+            res.status(400).json({
+                msg: "Hubo un error en el servidor"
+            })
         }
 
 
