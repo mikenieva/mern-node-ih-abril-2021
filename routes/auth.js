@@ -13,7 +13,9 @@ const auth = require('./../middleware/auth')
 // VERIFICAR USUARIO
 // api/auth
 router.get("/", auth ,(req, res) => {
-    res.send("hola")
+    res.json({
+        usuario: req.usuario
+    })
 })
 
 
