@@ -15,6 +15,10 @@ const ProyectoSchema = mongoose.Schema({
     creador: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario'
+    },
+    actualizadoEn: {
+        type: Date,
+        default: Date.now()
     }
 })
 

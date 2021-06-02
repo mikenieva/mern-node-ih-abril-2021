@@ -37,12 +37,21 @@ router.post("/",
 // RUTA 2
 // b. LEER/OBTENER TODOS LOS PROYECTOS
 
-
+router.get("/", 
+    auth,
+    proyectoController.obtenerProyectos
+)
 
 
 // RUTA 3
 // c. ACTUALIZAR UN PROYECTO
-
+router.put("/:id", 
+    auth,
+    [
+        check("nombre", "El nombre del proyecto es obligatorio").not().isEmpty()
+    ],
+    proyectoController.actualizarProyecto
+)
 
 
 
