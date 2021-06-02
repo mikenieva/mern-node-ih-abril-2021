@@ -57,6 +57,11 @@ router.put("/:id",
 
 // RUTA 4
 // d. BORRAR UN PROYECTO
+router.delete('/:id', 
+    auth, 
+    proyectoController.eliminarProyecto
+)
+
 
 
 

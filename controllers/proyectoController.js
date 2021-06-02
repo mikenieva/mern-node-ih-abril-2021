@@ -123,16 +123,47 @@ exports.actualizarProyecto = async (req, res) => {
             msg: e
         })
     }
-
-
-    
-
-
-
-
-
-
-
 }
 
 
+exports.eliminarProyecto = async (req, res) => {
+
+    // TENER EL ID DEL PROYECTO
+    const proyectoId = req.params.id
+
+    // SI EL PROYECTO NO SE ENCONTRÓ
+    // if(!proyectoId){
+    //     return res.status(400).json({
+    //         msg: "No se insertó el ID del proyecto."
+    //     })
+    // }
+
+
+    try {
+        // ENCONTRANDO EL PROYECTO EN BD
+        let proyecto = await Proyecto.findById(proyectoId)
+
+        // VERIFICACIÓN DE QUE EL USUARIO ES EL MISMO DEL PROYECTO
+        // 1. OBJECT ID DEL CREADOR EN MONGODB
+        //                                 2. EL USUARIO DEL TOKEN
+        if(proyecto.creador.toString() !== req.usuario.id){
+            return res.status(400).json({
+                msg: "Otro usuario está intentando cambiar un proyecto que no es suyo. No autorizado."
+            })
+        }
+
+
+        // ELIMINACIÓN DE PROYECTO
+        await Proyecto.findOneAndRemove({_id: proyectoId})
+        
+        res.json({
+            msg: "El proyecto fue eliminado" 
+        })
+        
+    } catch(e){
+        console.log(e)
+        res.status(400).json({
+            msg: "Hubo un error en el servidor. Puede que el documento esté borrado."
+        })
+    }
+}
