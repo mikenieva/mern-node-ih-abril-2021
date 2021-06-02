@@ -12,7 +12,7 @@ require('dotenv').config({
 
 const userRoutes        = require('./routes/usuarios')
 const authRoutes        = require('./routes/auth')
-// const projectsRoutes    = require('./routes/proyectos')
+const projectsRoutes    = require('./routes/proyectos')
 
 // 2. MIDDLEWARES
 
@@ -33,7 +33,7 @@ const authRoutes        = require('./routes/auth')
     app.use('/api/auth', authRoutes)
 
     // C. Proyectos
-    // app.use('/api/proyectos', projectsRoutes)
+    app.use('/api/proyectos', projectsRoutes)
 
 
     // RUTA DE PRUEBA
