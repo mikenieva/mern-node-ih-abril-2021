@@ -53,8 +53,6 @@ router.put("/:id",
     proyectoController.actualizarProyecto
 )
 
-
-
 // RUTA 4
 // d. BORRAR UN PROYECTO
 router.delete('/:id', 
